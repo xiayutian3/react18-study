@@ -7,10 +7,18 @@ import Layout from "./pages/Layout";
 // 路由鉴权-高阶组件
 import { AuthRoute } from "@/components/AuthRoute";
 
+import "./App.css";
+import Home from "./pages/Home";
+import Article from "./pages/Article";
+import Publish from "./pages/Publish";
+
+// 解决在非组件外使用router跳转问题
+import { HistoryRouter, history } from './utils/history'
+
 // 配置路由规则
 function App() {
   return (
-    <BrowserRouter>
+    <HistoryRouter history={history}>
       <div className="App">
         <Routes>
           {/* 需要鉴权的路由 */}
@@ -21,12 +29,16 @@ function App() {
                 <Layout />
               </AuthRoute>
             }
-          />
+          >
+            <Route index element={<Home />} />
+            <Route path="article" element={<Article />} />
+            <Route path="publish" element={<Publish />} />
+          </Route>
           {/* 不需要鉴权的路由 */}
           <Route path="/login" element={<Login />} />
         </Routes>
       </div>
-    </BrowserRouter>
+    </HistoryRouter>
   );
 }
 
